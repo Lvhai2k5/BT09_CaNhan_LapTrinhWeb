@@ -1,0 +1,61 @@
+type User {
+  id: ID!
+  fullname: String
+  email: String
+  password: String
+  phone: String
+  categories: [Category]
+  products: [Product]
+}
+
+type Category {
+  id: ID!
+  name: String
+  images: String
+  users: [User]
+  products: [Product]
+}
+
+type Product {
+  id: ID!
+  title: String
+  quantity: Int
+  description: String
+  price: Float
+  owner: User
+  category: Category
+}
+
+type Query {
+  # Product
+  products: [Product]
+  productsSortedByPrice: [Product]                 # ✅ yêu cầu 1
+  productsByCategory(categoryId: ID!): [Product]   # ✅ yêu cầu 2
+
+  # User
+  users: [User]
+  userById(id: ID!): User
+
+  # Category
+  categories: [Category]
+  categoryById(id: ID!): Category
+}
+
+type Mutation {
+  # User CRUD
+  createUser(fullname: String!, email: String!, password: String!, phone: String): User
+  updateUser(id: ID!, fullname: String, phone: String): User
+  deleteUserGraphql(id: ID!): Boolean
+
+  # Category CRUD
+  createCategory(name: String!, images: String): Category
+  updateCategory(id: ID!, name: String, images: String): Category
+  deleteCategoryGraphql(id: ID!): Boolean
+
+  # Product CRUD
+  createProduct(title: String!, quantity: Int, description: String, price: Float!,
+                ownerId: ID, categoryId: ID): Product
+  updateProduct(id: ID!, title: String, quantity: Int, description: String, price: Float,
+                ownerId: ID, categoryId: ID): Product
+  deleteProductGraphql(id: ID!): Boolean
+}
