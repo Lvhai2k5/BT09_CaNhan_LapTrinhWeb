@@ -1,37 +1,4 @@
-type User {
-  id: ID!
-  fullname: String
-  email: String
-  password: String
-  phone: String
-  categories: [Category]
-  products: [Product]
-}
-
-type Category {
-  id: ID!
-  name: String
-  images: String
-  users: [User]
-  products: [Product]
-}
-
-type Product {
-  id: ID!
-  title: String
-  quantity: Int
-  description: String
-  price: Float
-  owner: User
-  category: Category
-}
-
 type Query {
-  # Product
-  products: [Product]
-  productsSortedByPrice: [Product]                 # ✅ yêu cầu 1
-  productsByCategory(categoryId: ID!): [Product]   # ✅ yêu cầu 2
-
   # User
   users: [User]
   userById(id: ID!): User
@@ -39,23 +6,100 @@ type Query {
   # Category
   categories: [Category]
   categoryById(id: ID!): Category
+
+  # Product
+  products: [Product]
+  productById(id: ID!): Product
+  productsOrderByPriceAsc: [Product]
+  productsByCategory(categoryId: ID!): [Product]
 }
 
 type Mutation {
-  # User CRUD
-  createUser(fullname: String!, email: String!, password: String!, phone: String): User
-  updateUser(id: ID!, fullname: String, phone: String): User
-  deleteUserGraphql(id: ID!): Boolean
+  # User
+  createUser(input: CreateUserInput!): User
+  updateUser(input: UpdateUserInput!): User
+  deleteUser(id: ID!): Boolean
 
-  # Category CRUD
-  createCategory(name: String!, images: String): Category
-  updateCategory(id: ID!, name: String, images: String): Category
-  deleteCategoryGraphql(id: ID!): Boolean
+  # Category
+  createCategory(input: CreateCategoryInput!): Category
+  updateCategory(input: UpdateCategoryInput!): Category
+  deleteCategory(id: ID!): Boolean
 
-  # Product CRUD
-  createProduct(title: String!, quantity: Int, description: String, price: Float!,
-                ownerId: ID, categoryId: ID): Product
-  updateProduct(id: ID!, title: String, quantity: Int, description: String, price: Float,
-                ownerId: ID, categoryId: ID): Product
-  deleteProductGraphql(id: ID!): Boolean
+  # Product
+  createProduct(input: CreateProductInput!): Product
+  updateProduct(input: UpdateProductInput!): Product
+  deleteProduct(id: ID!): Boolean
+}
+
+# ========== TYPE ==========
+type User {
+  id: ID!
+  fullname: String
+  email: String
+  password: String
+  phone: String
+  products: [Product]
+}
+
+type Category {
+  id: ID!
+  name: String
+  images: String
+  products: [Product]
+}
+
+type Product {
+  id: ID!
+  title: String
+  quantity: Int
+  desc: String
+  price: Float
+  user: User
+  categories: [Category]
+}
+
+# ========== INPUT ==========
+input CreateUserInput {
+  fullname: String!
+  email: String!
+  password: String!
+  phone: String
+}
+
+input UpdateUserInput {
+  id: ID!
+  fullname: String
+  email: String
+  password: String
+  phone: String
+}
+
+input CreateCategoryInput {
+  name: String!
+  images: String
+}
+
+input UpdateCategoryInput {
+  id: ID!
+  name: String
+  images: String
+}
+
+input CreateProductInput {
+  title: String!
+  quantity: Int
+  desc: String
+  price: Float
+  userId: ID
+  categoryIds: [ID]
+}
+
+input UpdateProductInput {
+  id: ID!
+  title: String
+  quantity: Int
+  desc: String
+  price: Float
+  userId: ID
+  categoryIds: [ID]
 }

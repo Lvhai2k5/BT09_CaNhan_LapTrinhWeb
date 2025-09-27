@@ -1,18 +1,38 @@
 package vn.iotstar.service;
 
-import vn.iotstar.entity.User;
-import vn.iotstar.repository.UserRepository;
 import org.springframework.stereotype.Service;
-import java.util.*;
+import vn.iotstar.entity.AppUser;
+import vn.iotstar.repository.UserRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
-  private final UserRepository repo;
-  public UserService(UserRepository repo){ this.repo = repo; }
 
-  public List<User> findAll(){ return repo.findAll(); }
-  public Optional<User> findById(Long id){ return repo.findById(id); }
-  public Optional<User> findByEmail(String email){ return repo.findByEmail(email); }
-  public User save(User u){ return repo.save(u); }
-  public void delete(Long id){ repo.deleteById(id); }
+    private final UserRepository userRepo;
+
+    public UserService(UserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
+
+    public List<AppUser> findAll() {
+        return userRepo.findAll();
+    }
+
+    public Optional<AppUser> findById(Long id) {
+        return userRepo.findById(id);
+    }
+
+    public AppUser save(AppUser user) {
+        return userRepo.save(user);
+    }
+
+    public void deleteById(Long id) {
+        userRepo.deleteById(id);
+    }
+
+    public AppUser findByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
 }

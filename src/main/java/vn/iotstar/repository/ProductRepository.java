@@ -1,13 +1,17 @@
 package vn.iotstar.repository;
 
-import vn.iotstar.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import vn.iotstar.entity.Product;
+
 import java.util.List;
 
+@Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-  // 1) Giá tăng dần
-  List<Product> findAllByOrderByPriceAsc();
 
-  // 2) Tất cả product của 1 category
-  List<Product> findByCategoryId(Long categoryId);
+    // Tìm tất cả product theo giá tăng dần
+    List<Product> findAllByOrderByPriceAsc();
+
+    // Tìm tất cả product theo category id
+    List<Product> findByCategories_Id(Long categoryId);
 }

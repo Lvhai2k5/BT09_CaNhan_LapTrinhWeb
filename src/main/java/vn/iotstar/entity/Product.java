@@ -1,6 +1,9 @@
 package vn.iotstar.entity;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Products")
@@ -14,20 +17,24 @@ public class Product {
 
     private Integer quantity;
 
-    @Column(name = "description") // tránh trùng keyword
-    private String description;
+    @Column(name = "description")
+    private String desc;
 
-    private Double price;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")  // FK sang User
-    private User owner;
+    private BigDecimal price;
 
     @ManyToOne
-    @JoinColumn(name = "category_id") // FK sang Category
-    private Category category;
+    @JoinColumn(name = "user_id")
+    private AppUser user;
 
-    // GETTER & SETTER
+    @ManyToMany
+    @JoinTable(
+            name = "Product_Category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories = new HashSet<>();
+
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -37,15 +44,15 @@ public class Product {
     public Integer getQuantity() { return quantity; }
     public void setQuantity(Integer quantity) { this.quantity = quantity; }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getDesc() { return desc; }
+    public void setDesc(String desc) { this.desc = desc; }
 
-    public Double getPrice() { return price; }
-    public void setPrice(Double price) { this.price = price; }
+    public BigDecimal getPrice() { return price; }
+    public void setPrice(BigDecimal price) { this.price = price; }
 
-    public User getOwner() { return owner; }
-    public void setOwner(User owner) { this.owner = owner; }
+    public AppUser getUser() { return user; }
+    public void setUser(AppUser user) { this.user = user; }
 
-    public Category getCategory() { return category; }
-    public void setCategory(Category category) { this.category = category; }
+    public Set<Category> getCategories() { return categories; }
+    public void setCategories(Set<Category> categories) { this.categories = categories; }
 }

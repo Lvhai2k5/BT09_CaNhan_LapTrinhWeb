@@ -2,21 +2,20 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
-    <title>Product Management</title>
+    <title>Category Management</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <div class="container mt-4">
-    <h2>Danh sách Product (sắp theo giá ↑)</h2>
-    <table class="table table-bordered" id="productTable">
+    <h2>Danh sách Category</h2>
+    <table class="table table-bordered" id="categoryTable">
         <thead class="table-dark">
         <tr>
             <th>ID</th>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Quantity</th>
+            <th>Name</th>
+            <th>Images</th>
         </tr>
         </thead>
         <tbody></tbody>
@@ -32,7 +31,7 @@
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
-                query: "{ productsOrderByPriceAsc { id title price quantity } }"
+                query: "{ categories { id name images } }"
             }),
             success: function (res) {
                 if (res.errors) {
@@ -40,15 +39,14 @@
                     return;
                 }
                 let rows = "";
-                res.data.productsOrderByPriceAsc.forEach(p => {
+                res.data.categories.forEach(c => {
                     rows += `<tr>
-                        <td>${p.id || ''}</td>
-                        <td>${p.title || ''}</td>
-                        <td>${p.price || ''}</td>
-                        <td>${p.quantity || ''}</td>
+                        <td>${c.id || ''}</td>
+                        <td>${c.name || ''}</td>
+                        <td>${c.images || ''}</td>
                     </tr>`;
                 });
-                $("#productTable tbody").html(rows);
+                $("#categoryTable tbody").html(rows);
             },
             error: function (xhr) {
                 $("#errorBox").removeClass("d-none").text("AJAX lỗi: " + xhr.status);
