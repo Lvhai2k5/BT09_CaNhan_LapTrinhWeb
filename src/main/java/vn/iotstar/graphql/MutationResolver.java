@@ -109,7 +109,7 @@ public class MutationResolver {
         Product p = new Product();
         p.setTitle(input.getTitle());
         p.setQuantity(input.getQuantity() != null ? input.getQuantity() : 0);
-        p.setDesc(input.getDesc());
+        p.setDescription(input.getDesc());
         p.setPrice(input.getPrice() != null ? input.getPrice() : BigDecimal.ZERO);
 
         if (input.getUserId() != null) {
@@ -130,7 +130,7 @@ public class MutationResolver {
                 .map(p -> {
                     if (input.getTitle() != null) p.setTitle(input.getTitle());
                     if (input.getQuantity() != null) p.setQuantity(input.getQuantity());
-                    if (input.getDesc() != null) p.setDesc(input.getDesc());
+                    if (input.getDesc() != null) p.setDescription(input.getDesc());
                     if (input.getPrice() != null) p.setPrice(input.getPrice());
 
                     if (input.getUserId() != null) {
@@ -160,7 +160,7 @@ public class MutationResolver {
             Product p = new Product();
             p.setTitle(in.getTitle());
             p.setQuantity(in.getQuantity() != null ? in.getQuantity() : 0);
-            p.setDesc(in.getDesc());
+            p.setDescription(in.getDesc());
             p.setPrice(in.getPrice() != null ? in.getPrice() : BigDecimal.ZERO);
             if (in.getUserId() != null) {
                 userService.findById(in.getUserId()).ifPresent(p::setUser);

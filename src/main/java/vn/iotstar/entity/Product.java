@@ -18,7 +18,7 @@ public class Product {
     private Integer quantity;
 
     @Column(name = "description")
-    private String desc;
+    private String description;   // ✅ đổi desc -> description
 
     private BigDecimal price;
 
@@ -44,8 +44,8 @@ public class Product {
     public Integer getQuantity() { return quantity; }
     public void setQuantity(Integer quantity) { this.quantity = quantity; }
 
-    public String getDesc() { return desc; }
-    public void setDesc(String desc) { this.desc = desc; }
+    public String getDescription() { return description; }   // ✅
+    public void setDescription(String description) { this.description = description; }  // ✅
 
     public BigDecimal getPrice() { return price; }
     public void setPrice(BigDecimal price) { this.price = price; }

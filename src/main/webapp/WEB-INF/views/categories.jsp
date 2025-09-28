@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
     <title>Category Management</title>
@@ -27,24 +26,32 @@
 <script>
     $(function () {
         $.ajax({
-            url: '<c:url value="/graphql"/>',
+            url: '/graphql',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
                 query: "{ categories { id name images } }"
             }),
             success: function (res) {
+                console.log("GraphQL response:", res); // debug ở console F12
+
                 if (res.errors) {
                     $("#errorBox").removeClass("d-none").text(res.errors[0].message);
                     return;
                 }
+
+                if (!res.data || !res.data.categories) {
+                    $("#errorBox").removeClass("d-none").text("Không có dữ liệu categories.");
+                    return;
+                }
+
                 let rows = "";
-                res.data.categories.forEach(c => {
-                    rows += `<tr>
-                        <td>${c.id || ''}</td>
-                        <td>${c.name || ''}</td>
-                        <td>${c.images || ''}</td>
-                    </tr>`;
+                res.data.categories.forEach(function(c) {
+                    rows += "<tr>" +
+                        "<td>" + (c.id ?? '') + "</td>" +
+                        "<td>" + (c.name ?? '') + "</td>" +
+                        "<td>" + (c.images ?? '') + "</td>" +
+                        "</tr>";
                 });
                 $("#categoryTable tbody").html(rows);
             },

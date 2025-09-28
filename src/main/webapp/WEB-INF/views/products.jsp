@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
     <title>Product Management</title>
@@ -9,14 +8,15 @@
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <div class="container mt-4">
-    <h2>Danh sách Product (sắp theo giá ↑)</h2>
+    <h2>Danh sách sản phẩm</h2>
     <table class="table table-bordered" id="productTable">
         <thead class="table-dark">
         <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Quantity</th>
+            <th>Nhận dạng</th>
+            <th>Tiêu đề</th>
+            <th>Số lượng</th>
+            <th>Sự miêu tả</th>
+            <th>Giá</th>
         </tr>
         </thead>
         <tbody></tbody>
@@ -28,11 +28,11 @@
 <script>
     $(function () {
         $.ajax({
-            url: '<c:url value="/graphql"/>',
+            url: '/graphql',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
-                query: "{ productsOrderByPriceAsc { id title price quantity } }"
+                query: "{ products { id title quantity description price } }"
             }),
             success: function (res) {
                 if (res.errors) {
@@ -40,12 +40,13 @@
                     return;
                 }
                 let rows = "";
-                res.data.productsOrderByPriceAsc.forEach(p => {
+                res.data.products.forEach(p => {
                     rows += `<tr>
-                        <td>${p.id || ''}</td>
-                        <td>${p.title || ''}</td>
-                        <td>${p.price || ''}</td>
-                        <td>${p.quantity || ''}</td>
+                        <td>${p.id}</td>
+                        <td>${p.title}</td>
+                        <td>${p.quantity}</td>
+                        <td>${p.description || ""}</td>
+                        <td>${p.price}</td>
                     </tr>`;
                 });
                 $("#productTable tbody").html(rows);
