@@ -52,7 +52,7 @@ type Product {
   id: ID!
   title: String
   quantity: Int
-  description: String
+  description: String   # Đã sửa "desc" -> "description"
   price: Float
   user: User
   categories: [Category]
@@ -88,7 +88,7 @@ input UpdateCategoryInput {
 input CreateProductInput {
   title: String!
   quantity: Int
-  description: String
+  description: String   # Đổi đồng bộ
   price: Float
   userId: ID
   categoryIds: [ID]
@@ -98,7 +98,7 @@ input UpdateProductInput {
   id: ID!
   title: String
   quantity: Int
-  description: String
+  description: String   # Đổi đồng bộ
   price: Float
   userId: ID
   categoryIds: [ID]

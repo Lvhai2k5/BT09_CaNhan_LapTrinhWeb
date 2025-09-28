@@ -17,8 +17,9 @@ public class Product {
 
     private Integer quantity;
 
+    // Chỉnh đúng field "description"
     @Column(name = "description")
-    private String description;   // ✅ đổi desc -> description
+    private String description;
 
     private BigDecimal price;
 
@@ -44,8 +45,8 @@ public class Product {
     public Integer getQuantity() { return quantity; }
     public void setQuantity(Integer quantity) { this.quantity = quantity; }
 
-    public String getDescription() { return description; }   // ✅
-    public void setDescription(String description) { this.description = description; }  // ✅
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
     public BigDecimal getPrice() { return price; }
     public void setPrice(BigDecimal price) { this.price = price; }

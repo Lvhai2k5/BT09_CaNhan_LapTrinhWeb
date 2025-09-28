@@ -12,10 +12,10 @@
     <table class="table table-bordered" id="productTable">
         <thead class="table-dark">
         <tr>
-            <th>Nhận dạng</th>
+            <th>ID</th>
             <th>Tiêu đề</th>
             <th>Số lượng</th>
-            <th>Sự miêu tả</th>
+            <th>Mô tả</th>
             <th>Giá</th>
         </tr>
         </thead>
@@ -35,19 +35,27 @@
                 query: "{ products { id title quantity description price } }"
             }),
             success: function (res) {
+                console.log("GraphQL response:", res); // Debug console F12
+
                 if (res.errors) {
                     $("#errorBox").removeClass("d-none").text(res.errors[0].message);
                     return;
                 }
+
+                if (!res.data || !res.data.products) {
+                    $("#errorBox").removeClass("d-none").text("Không có dữ liệu sản phẩm.");
+                    return;
+                }
+
                 let rows = "";
-                res.data.products.forEach(p => {
-                    rows += `<tr>
-                        <td>${p.id}</td>
-                        <td>${p.title}</td>
-                        <td>${p.quantity}</td>
-                        <td>${p.description || ""}</td>
-                        <td>${p.price}</td>
-                    </tr>`;
+                res.data.products.forEach(function(p) {
+                    rows += "<tr>" +
+                        "<td>" + (p.id ?? '') + "</td>" +
+                        "<td>" + (p.title ?? '') + "</td>" +
+                        "<td>" + (p.quantity ?? '') + "</td>" +
+                        "<td>" + (p.description ?? '') + "</td>" +
+                        "<td>" + (p.price ?? '') + "</td>" +
+                        "</tr>";
                 });
                 $("#productTable tbody").html(rows);
             },
